@@ -9,7 +9,7 @@ See LICENSE file for license information
 #include <stdlib.h>
 
 //the current version of the program
-const std::string version = "0.11.2";
+const std::string version = "0.12.0";
 
 /*
 Prints information on how to use this program
@@ -29,6 +29,7 @@ void printUsageInfo()
 	cout << "-h\t\tPrint this information then exit" << endl << endl;
 	cout << "-m\t\tDisplay the median (middle value) of the given numbers" << endl << endl;
 	cout << "-M\t\tDisplay the mode (most common value) of the given numbers" << endl << endl;
+	cout << "-o\t\tDisplay the number of odd and even numbers" << endl << endl;
 	cout << "-r\t\tDisplay the range of the given numbers" << endl << endl;
 	cout << "-R\t\tDisplay mean, median, mode, and range of the given numbers" << endl << endl;
 	cout << "-s\t\tSort the given numbers from smallest to largest" << endl << endl;
@@ -346,10 +347,31 @@ void getLessGreaterThanMedian(long* numbers, unsigned short numNumbers, unsigned
 	}
 }
 
+/*
+Finds the number of odd versus even numbers
+*/
+void getOddEven(long* numbers, unsigned short numNumbers, unsigned short &numOdd, unsigned short &numEven)
+{
+	numOdd = 0;
+	numEven = 0;
+
+	for(int i = 0; i < numNumbers; ++i)
+	{
+		if(numbers[i] % 2 == 0)
+		{
+			numEven++;
+		}
+		else
+		{
+			numOdd++;
+		}
+	}
+}
+
 int main(int argc, char* argv[])
 {
 	//default action is to sort from smallest to largest
-	std::string actionsToTake[7];
+	std::string actionsToTake[8];
 	int numActionsToTake = 0;
 	int numOptions = 0;
 
@@ -370,9 +392,9 @@ int main(int argc, char* argv[])
 	else
 	{
 		char opt;
-		//parse options
+		//parse optionshttp://timbumpus.postach.io/mediocrity
 		//bug(?) when two options given with one - (ex: -gG doesn't work correctly, but -g -G does)
-		while((opt = getopt(argc, argv, "acghmrsAGMRS")) != -1)
+		while((opt = getopt(argc, argv, "acghmorsAGMRS")) != -1)
 		{
 			switch(opt)
 			{
@@ -389,7 +411,8 @@ int main(int argc, char* argv[])
 					actionsToTake[4] = "getMode";
 					actionsToTake[5] = "getLessGreaterThanMean";
 					actionsToTake[6] = "getLessGreaterThanMedian";
-					numActionsToTake = 7;
+					actionsToTake[7] = "getOddEven";
+					numActionsToTake = 8;
 					optionAllGiven = true;
 					break;
 				case 'c':
@@ -413,6 +436,10 @@ int main(int argc, char* argv[])
 					break;
 				case 'M':
 					actionsToTake[numActionsToTake] = "getMode";
+					numActionsToTake++;
+					break;
+				case 'o':
+					actionsToTake[numActionsToTake] = "getOddEven";
 					numActionsToTake++;
 					break;
 				case 'r':
@@ -565,6 +592,15 @@ int main(int argc, char* argv[])
 			getLessGreaterThanMedian(numbers, numbersArrayLength, numLessMedian, numGreaterMedian);
 
 			std::cout << "Number of values < median: " << numLessMedian << "\tNumber of values > median: " << numGreaterMedian << std::endl;
+		}
+		else if(actionsToTake[i] == "getOddEven")
+		{
+			unsigned short numOdd;
+			unsigned short numEven;
+
+			getOddEven(numbers, numbersArrayLength, numOdd, numEven);
+
+			std::cout << "Odd: " << numOdd << "\tEven: " << numEven << std::endl;
 		}
 	}
 
