@@ -21,19 +21,19 @@ void printUsageInfo()
 	cout << "Usage:" << endl;
 	cout << "numba <options> num1 num2 ... numN" << "\n----" << endl;
 	cout << "Options:" << endl;
-	cout << "-a\t\tDisplay the mean/average of the given numbers" << endl << endl;
-	cout << "-A\t\tPerform all operations except sorting on the given numbers" << endl << endl;
-	cout << "-c\t\tDisplay the number of occurances of each unique number" << endl << endl;
-	cout << "-g\t\tDisplay the amount of numbers that are greater than and the amount that are less than the mean/average" << endl << endl;
-	cout << "-G\t\tDisplay the amount of numbers that are greater than and the amount that are less than the median" << endl << endl;
-	cout << "-h\t\tPrint this information then exit" << endl << endl;
-	cout << "-m\t\tDisplay the median (middle value) of the given numbers" << endl << endl;
-	cout << "-M\t\tDisplay the mode (most common value) of the given numbers" << endl << endl;
-	cout << "-o\t\tDisplay the number of odd and even numbers" << endl << endl;
-	cout << "-r\t\tDisplay the range of the given numbers" << endl << endl;
-	cout << "-R\t\tDisplay mean, median, mode, and range of the given numbers" << endl << endl;
-	cout << "-s\t\tSort the given numbers from smallest to largest" << endl << endl;
-	cout << "-S\t\tSort the given numbers from largest to smallest" << endl << endl;
+	cout << "\t-a\tDisplay the mean/average of the given numbers" << endl << endl;
+	cout << "\t-A\tPerform all operations except sorting on the given numbers" << endl << endl;
+	cout << "\t-c\tDisplay the number of occurances of each unique number" << endl << endl;
+	cout << "\t-g\tDisplay the amount of numbers that are greater than and the amount that are less than the mean/average" << endl << endl;
+	cout << "\t-G\tDisplay the amount of numbers that are greater than and the amount that are less than the median" << endl << endl;
+	cout << "\t-h\tPrint this information then exit" << endl << endl;
+	cout << "\t-m\tDisplay the median (middle value) of the given numbers" << endl << endl;
+	cout << "\t-M\tDisplay the mode (most common value) of the given numbers" << endl << endl;
+	cout << "\t-o\tDisplay the number of odd and even numbers" << endl << endl;
+	cout << "\t-r\tDisplay the range of the given numbers" << endl << endl;
+	cout << "\t-R\tDisplay mean, median, mode, and range of the given numbers" << endl << endl;
+	cout << "\t-s\tSort the given numbers from smallest to largest" << endl << endl;
+	cout << "\t-S\tSort the given numbers from largest to smallest" << endl << endl;
 }
 
 /*
