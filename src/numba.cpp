@@ -392,7 +392,7 @@ int main(int argc, char* argv[])
 	else
 	{
 		char opt;
-		//parse optionshttp://timbumpus.postach.io/mediocrity
+		//parse options
 		//bug(?) when two options given with one - (ex: -gG doesn't work correctly, but -g -G does)
 		while((opt = getopt(argc, argv, "acghmorsAGMRS")) != -1)
 		{
