@@ -376,10 +376,10 @@ int main(int argc, char* argv[])
 	int numOptions = 0;
 
 	//whether we sort from small to large or large to small
-	bool smallToLarge;
+	bool smallToLarge = false;
 
 	//shortcut to stop parsing options if -A is given
-	bool optionAllGiven;
+	bool optionAllGiven = false;
 
 	long* numbers;
 
@@ -498,7 +498,6 @@ int main(int argc, char* argv[])
 	//sorting from smallest to largest is the default action if no options are specified
 	if(numOptions == 0)
 	{
-		smallToLarge = true;
 		actionsToTake[0] = "sortSmallToLarge";
 		numActionsToTake = 1;
 	}
