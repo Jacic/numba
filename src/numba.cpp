@@ -196,11 +196,13 @@ void removeDuplicates(long* numbers, unsigned short numNumbers, long* noDuplicat
 
 	quicksort(numbers, 0, numNumbers - 1, true);
 
+	//begin with the first number
 	long lastNum = numbers[0];
 	noDuplicates[0] = lastNum;
 
 	for(int i = 1; i < numNumbers; ++i)
 	{
+		//the array is sorted, so duplicates will be grouped together
 		if(numbers[i] != lastNum)
 		{
 			noDuplicates[numUnique] = numbers[i];
@@ -256,6 +258,7 @@ void getMode(long* numbers, unsigned short numNumbers, long* modes, unsigned sho
 		}
 	}
 
+	//there are no modes when every number only appears once
 	if(mostOccurances == 1)
 	{
 		numModes = 0;
@@ -381,6 +384,7 @@ int main(int argc, char* argv[])
 	//shortcut to stop parsing options if -A is given
 	bool optionAllGiven = false;
 
+	//this will hold the numbers that are passed to the program
 	long* numbers;
 
 	if(argc == 1)
@@ -470,6 +474,7 @@ int main(int argc, char* argv[])
 			}
 			numOptions += 1;
 
+			//shortcut to stop parsing if the -A option was given
 			if(optionAllGiven)
 			{
 				break;
