@@ -376,7 +376,7 @@ int main(int argc, char* argv[])
 	int numOptions = 0;
 
 	//whether we sort from small to large or large to small
-	bool smallToLarge = false;
+	bool smallToLarge = true;
 
 	//shortcut to stop parsing options if -A is given
 	bool optionAllGiven = false;
