@@ -373,10 +373,12 @@ void getOddEven(long* numbers, unsigned short numNumbers, unsigned short &numOdd
 
 int main(int argc, char* argv[])
 {
-	//default action is to sort from smallest to largest
+	//holds the actions to be performed
 	std::string actionsToTake[8];
 	int numActionsToTake = 0;
-	int numOptions = 0;
+
+	//the number of command line options that are not numbers to operate on
+	int numSeparatedOptions = 0;
 
 	//whether we sort from small to large or large to small
 	bool smallToLarge = true;
@@ -395,9 +397,18 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
+		//count the number of command line options that are not numbers
+		for(int i = 1; i < argc; ++i)
+		{
+			//if it begins with '-', it is an option
+			if(argv[i][0] == '-')
+			{
+				numSeparatedOptions++;
+			}
+		}
+
 		char opt;
 		//parse options
-		//bug(?) when two options given with one - (ex: -gG doesn't work correctly, but -g -G does)
 		while((opt = getopt(argc, argv, "acghmorsAGMRS")) != -1)
 		{
 			switch(opt)
@@ -472,7 +483,6 @@ int main(int argc, char* argv[])
 					printUsageInfo();
 					return 0;
 			}
-			numOptions += 1;
 
 			//shortcut to stop parsing if the -A option was given
 			if(optionAllGiven)
@@ -482,7 +492,7 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	unsigned short numbersArrayLength = argc - numOptions - 1;
+	unsigned short numbersArrayLength = argc - numSeparatedOptions - 1;
 	//minus 1 because the first argument argc counts is the program itself
 	if(numbersArrayLength > 0)
 	{
@@ -490,7 +500,7 @@ int main(int argc, char* argv[])
 		for(unsigned short i = 0; i < numbersArrayLength; ++i)
 		{
 			//plus one because the first argument argc counts is the program itself
-			numbers[i] = atoi(argv[numOptions + i + 1]);
+			numbers[i] = atoi(argv[numSeparatedOptions + i + 1]);
 		}
 	}
 	else
@@ -501,7 +511,7 @@ int main(int argc, char* argv[])
 	}
 
 	//sorting from smallest to largest is the default action if no options are specified
-	if(numOptions == 0)
+	if(numSeparatedOptions == 0)
 	{
 		actionsToTake[0] = "sortSmallToLarge";
 		numActionsToTake = 1;
