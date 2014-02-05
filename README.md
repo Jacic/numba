@@ -6,14 +6,18 @@ numba is a tool designed for analyzing a set of numbers. It can find averages, m
 
 Before building numba from source, run `autogen.sh`. I recommend creating a subdirectory to build numba, and configuring from there:
 
-`mkdir build`
-`cd build`
-`../configure`
+```
+mkdir build
+cd build
+../configure
+```
 
 To compile, and then install numba:
 
-`make`
-`make install`
+```
+make
+make install
+```
 
 ## Does it have any limitations?
 
