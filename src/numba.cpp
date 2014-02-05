@@ -18,8 +18,7 @@ void printUsageInfo()
 {
 	using namespace std;
 
-	cout << "Usage:" << endl;
-	cout << "numba <options> num1 num2 ... numN" << "\n----" << endl;
+	cout << "Usage: numba <options> num1 num2 ... numN" << endl << endl;
 	cout << "Options:" << endl;
 	cout << "\t-a\tDisplay the mean/average of the given numbers" << endl << endl;
 	cout << "\t-A\tPerform all operations except sorting on the given numbers" << endl << endl;
@@ -43,8 +42,8 @@ void printFullInfo()
 {
 	using namespace std;
 
-	cout << "----\nnumba, a NUMBer Analyzer version " << version << "\n----" << endl;
-	cout << "numba sorts numbers, finds the median, mean, mode, range, and more.\n----" << endl;
+	cout << endl << "numba, a NUMBer Analyzer - version " << version << endl << endl;
+	cout << "numba sorts numbers, finds the median, mean, mode, range, and more." << endl << endl;
 	printUsageInfo();
 }
 
