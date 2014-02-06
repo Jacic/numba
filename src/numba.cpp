@@ -5,6 +5,7 @@ See LICENSE file for license information
 
 #include <iostream>
 #include <string>
+#include <map>
 #include <getopt.h>
 #include <stdlib.h>
 
@@ -373,14 +374,18 @@ void getOddEven(long* numbers, unsigned short numNumbers, unsigned short &numOdd
 int main(int argc, char* argv[])
 {
 	//holds the actions to be performed
-	//order: mean, median, range, mode, count, less/greater than median,
-	//less/greater than mean, odd/even, sort small to large, sort large to small
-	bool actionsToTake[10];
+	std::map <std::string, bool> actionsToTake;
 
-	for(int i = 0; i < 10; ++i)
-	{
-		actionsToTake[i] = false;
-	}
+	actionsToTake["mean"] = false;
+	actionsToTake["median"] = false;
+	actionsToTake["range"] = false;
+	actionsToTake["mode"] = false;
+	actionsToTake["count"] = false;
+	actionsToTake["lessGreaterThanMean"] = false;
+	actionsToTake["lessGreaterThanMedian"] = false;
+	actionsToTake["oddEven"] = false;
+	actionsToTake["sortSmallToLarge"] = false;
+	actionsToTake["SortLargeToSmall"] = false;
 
 	//the number of command line options that are not numbers to operate on
 	int numSeparatedOptions = 0;
@@ -416,62 +421,56 @@ int main(int argc, char* argv[])
 			switch(opt)
 			{
 				case 'a':
-					//mean
-					actionsToTake[0] = true;
+					actionsToTake["mean"] = true;
 					break;
 				case 'A':
 					//fill array with all actions except sorting
-					for(int i = 0; i < 8; ++i)
-					{
-						actionsToTake[i] = true;
-					}
+					actionsToTake["mean"] = true;
+					actionsToTake["median"] = true;
+					actionsToTake["range"] = true;
+					actionsToTake["mode"] = true;
+					actionsToTake["count"] = true;
+					actionsToTake["lessGreaterThanMean"] = true;
+					actionsToTake["lessGreaterThanMedian"] = true;
+					actionsToTake["oddEven"] = true;
 					optionAllGiven = true;
 					break;
 				case 'c':
-					//count
-					actionsToTake[4] = true;
+					actionsToTake["count"] = true;
 					break;
 				case 'g':
-					//less/greater than mean
-					actionsToTake[6] = true;
+					actionsToTake["lessGreaterThanMean"] = true;
 					break;
 				case 'G':
-					//less/greater than median
-					actionsToTake[5] = true;
+					actionsToTake["lessGreaterThanMedian"] = true;
 					break;
 				case 'h':
 					printFullInfo();
 					return 0;
 				case 'm':
-					//median
-					actionsToTake[1] = true;
+					actionsToTake["median"] = true;
 					break;
 				case 'M':
-					//mode
-					actionsToTake[3] = true;
+					actionsToTake["mode"] = true;
 					break;
 				case 'o':
-					//odd/even
-					actionsToTake[7] = true;
+					actionsToTake["oddEven"] = true;
 					break;
 				case 'r':
-					//range
-					actionsToTake[2] = true;
+					actionsToTake["range"] = true;
 					break;
 				case 'R':
-					//fill array with mean, median, range, and mode
-					actionsToTake[0] = true;
-					actionsToTake[1] = true;
-					actionsToTake[2] = true;
-					actionsToTake[3] = true;
+					//set mean, median, range, and mode to be performed
+					actionsToTake["mean"] = true;
+					actionsToTake["median"] = true;
+					actionsToTake["range"] = true;
+					actionsToTake["mode"] = true;
 					break;
 				case 's':
-					//sort small to large
-					actionsToTake[8] = true;
+					actionsToTake["sortSmallToLarge"] = true;
 					break;
 				case 'S':
-					//sort large to small
-					actionsToTake[9] = true;
+					actionsToTake["SortLargeToSmall"] = true;
 					break;
 				default: // '?'
 					printUsageInfo();
@@ -507,32 +506,32 @@ int main(int argc, char* argv[])
 	//sorting from smallest to largest is the default action if no options are specified
 	if(numSeparatedOptions == 0)
 	{
-		actionsToTake[8] = true;
+		actionsToTake["sortSmallToLarge"] = true;
 	}
 
 	//perform each requested action
-	if(actionsToTake[0]) //get mean
+	if(actionsToTake["mean"]) //get mean
 	{
 		std::cout << std::endl;
 
 		double mean = getMean(numbers, numbersArrayLength);
 		std::cout << "Mean:\t\t" << mean << std::endl;
 	}
-	if(actionsToTake[1]) //get median
+	if(actionsToTake["median"]) //get median
 	{
 		std::cout << std::endl;
 
 		double median = getMedian(numbers, numbersArrayLength);
 		std::cout << "Median:\t\t" << median << std::endl;
 	}
-	if(actionsToTake[2]) //get range
+	if(actionsToTake["range"]) //get range
 	{
 		std::cout << std::endl;
 
 		long range = getRange(numbers, numbersArrayLength);
 		std::cout << "Range:\t\t" << range << std::endl;
 	}
-	if(actionsToTake[3]) //get mode(s)
+	if(actionsToTake["mode"]) //get mode(s)
 	{
 		std::cout << std::endl;
 
@@ -574,7 +573,7 @@ int main(int argc, char* argv[])
 		delete[] modes;
 		delete[] occurances;
 	}
-	if(actionsToTake[4]) //get count of occurances of unique numbers
+	if(actionsToTake["count"]) //get count of occurances of unique numbers
 	{
 		std::cout << std::endl;
 
@@ -594,7 +593,7 @@ int main(int argc, char* argv[])
 		delete[] noDuplicates;
 		delete[] numOccurances;
 	}
-	if(actionsToTake[5]) //get less/greater than median
+	if(actionsToTake["lessGreaterThanMedian"]) //get less/greater than median
 	{
 		std::cout << std::endl;
 
@@ -605,7 +604,7 @@ int main(int argc, char* argv[])
 
 		std::cout << "Number of values < median: " << numLessMedian << "\tNumber of values > median: " << numGreaterMedian << std::endl;
 	}
-	if(actionsToTake[6]) //get less/greater than mean
+	if(actionsToTake["lessGreaterThanMean"]) //get less/greater than mean
 	{
 		std::cout << std::endl;
 
@@ -616,7 +615,7 @@ int main(int argc, char* argv[])
 
 		std::cout << "Number of values < mean: " << numLessMean << "\tNumber of values > mean: " << numGreaterMean << std::endl;
 	}
-	if(actionsToTake[7]) //get odd/even
+	if(actionsToTake["oddEven"]) //get odd/even
 	{
 		std::cout << std::endl;
 
@@ -627,7 +626,7 @@ int main(int argc, char* argv[])
 
 		std::cout << "Odd: " << numOdd << "\tEven: " << numEven << std::endl;
 	}
-	if(actionsToTake[8]) //sort small to large
+	if(actionsToTake["sortSmallToLarge"]) //sort small to large
 	{
 		std::cout << std::endl << "Numbers sorted from smallest to largest:" << std::endl;
 
@@ -637,7 +636,7 @@ int main(int argc, char* argv[])
 			std::cout << numbers[i] << std::endl;
 		}
 	}
-	if(actionsToTake[9]) //sort small to large
+	if(actionsToTake["SortLargeToSmall"]) //sort small to large
 	{
 		std::cout << std::endl << "Numbers sorted from largest to smallest:" << std::endl;
 
