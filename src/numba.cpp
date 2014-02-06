@@ -373,14 +373,17 @@ void getOddEven(long* numbers, unsigned short numNumbers, unsigned short &numOdd
 int main(int argc, char* argv[])
 {
 	//holds the actions to be performed
-	std::string actionsToTake[8];
-	int numActionsToTake = 0;
+	//order: mean, median, range, mode, count, less/greater than median,
+	//less/greater than mean, odd/even, sort small to large, sort large to small
+	bool actionsToTake[10];
+
+	for(int i = 0; i < 10; ++i)
+	{
+		actionsToTake[i] = false;
+	}
 
 	//the number of command line options that are not numbers to operate on
 	int numSeparatedOptions = 0;
-
-	//whether we sort from small to large or large to small
-	bool smallToLarge = true;
 
 	//shortcut to stop parsing options if -A is given
 	bool optionAllGiven = false;
@@ -413,70 +416,62 @@ int main(int argc, char* argv[])
 			switch(opt)
 			{
 				case 'a':
-					actionsToTake[numActionsToTake] = "getMean";
-					numActionsToTake++;
+					//mean
+					actionsToTake[0] = true;
 					break;
 				case 'A':
 					//fill array with all actions except sorting
-					actionsToTake[0] = "getMean";
-					actionsToTake[1] = "getMedian";
-					actionsToTake[2] = "getRange";
-					actionsToTake[3] = "getCount";
-					actionsToTake[4] = "getMode";
-					actionsToTake[5] = "getLessGreaterThanMean";
-					actionsToTake[6] = "getLessGreaterThanMedian";
-					actionsToTake[7] = "getOddEven";
-					numActionsToTake = 8;
+					for(int i = 0; i < 8; ++i)
+					{
+						actionsToTake[i] = true;
+					}
 					optionAllGiven = true;
 					break;
 				case 'c':
-					actionsToTake[numActionsToTake] = "getCount";
-					numActionsToTake++;
+					//count
+					actionsToTake[4] = true;
 					break;
 				case 'g':
-					actionsToTake[numActionsToTake] = "getLessGreaterThanMean";
-					numActionsToTake++;
+					//less/greater than mean
+					actionsToTake[6] = true;
 					break;
 				case 'G':
-					actionsToTake[numActionsToTake] = "getLessGreaterThanMedian";
-					numActionsToTake++;
+					//less/greater than median
+					actionsToTake[5] = true;
 					break;
 				case 'h':
 					printFullInfo();
 					return 0;
 				case 'm':
-					actionsToTake[numActionsToTake] = "getMedian";
-					numActionsToTake++;
+					//median
+					actionsToTake[1] = true;
 					break;
 				case 'M':
-					actionsToTake[numActionsToTake] = "getMode";
-					numActionsToTake++;
+					//mode
+					actionsToTake[3] = true;
 					break;
 				case 'o':
-					actionsToTake[numActionsToTake] = "getOddEven";
-					numActionsToTake++;
+					//odd/even
+					actionsToTake[7] = true;
 					break;
 				case 'r':
-					actionsToTake[numActionsToTake] = "getRange";
-					numActionsToTake++;
+					//range
+					actionsToTake[2] = true;
 					break;
 				case 'R':
-					//fill array with mean, median, mode, and range
-					actionsToTake[numActionsToTake] = "getMean";
-					actionsToTake[numActionsToTake + 1] = "getMedian";
-					actionsToTake[numActionsToTake + 2] = "getRange";
-					actionsToTake[numActionsToTake + 3] = "getMode";
-					numActionsToTake += 4;
+					//fill array with mean, median, range, and mode
+					actionsToTake[0] = true;
+					actionsToTake[1] = true;
+					actionsToTake[2] = true;
+					actionsToTake[3] = true;
 					break;
 				case 's':
-					smallToLarge = true;
-					actionsToTake[numActionsToTake] = "sortSmallToLarge";
-					numActionsToTake++;
+					//sort small to large
+					actionsToTake[8] = true;
 					break;
 				case 'S':
-					smallToLarge = false;
-					actionsToTake[numActionsToTake] = "sortLargeToSmall";
-					numActionsToTake++;
+					//sort large to small
+					actionsToTake[9] = true;
 					break;
 				default: // '?'
 					printUsageInfo();
@@ -512,108 +507,144 @@ int main(int argc, char* argv[])
 	//sorting from smallest to largest is the default action if no options are specified
 	if(numSeparatedOptions == 0)
 	{
-		actionsToTake[0] = "sortSmallToLarge";
-		numActionsToTake = 1;
+		actionsToTake[8] = true;
 	}
 
-	std::cout << std::endl;
-
-	//loop through the requested actions and perform them
-	for(int i = 0; i < numActionsToTake; ++i)
+	//perform each requested action
+	if(actionsToTake[0]) //get mean
 	{
-		//both small to large and large to small use the same function
-		if(actionsToTake[i] == "sortSmallToLarge" || actionsToTake[i] == "sortLargeToSmall")
+		std::cout << std::endl;
+
+		double mean = getMean(numbers, numbersArrayLength);
+		std::cout << "Mean:\t\t" << mean << std::endl;
+	}
+	if(actionsToTake[1]) //get median
+	{
+		std::cout << std::endl;
+
+		double median = getMedian(numbers, numbersArrayLength);
+		std::cout << "Median:\t\t" << median << std::endl;
+	}
+	if(actionsToTake[2]) //get range
+	{
+		std::cout << std::endl;
+
+		long range = getRange(numbers, numbersArrayLength);
+		std::cout << "Range:\t\t" << range << std::endl;
+	}
+	if(actionsToTake[3]) //get mode(s)
+	{
+		std::cout << std::endl;
+
+		long* modes = new long[numbersArrayLength];
+		unsigned short* occurances = new unsigned short[numbersArrayLength];
+		unsigned short numModes;
+
+		getMode(numbers, numbersArrayLength, modes, occurances, numModes);
+
+		if(numModes == 0)
 		{
-			quicksort(numbers, 0, numbersArrayLength - 1, smallToLarge);
-			for(int i = 0; i < numbersArrayLength; ++i)
+			std::cout << "No mode(s)" << std::endl;
+		}
+		else
+		{
+			if(numModes == 1)
 			{
-				std::cout << numbers[i] << std::endl;
-			}
-		}
-		else if(actionsToTake[i] == "getCount")
-		{
-			unsigned short numUnique;
-			long* noDuplicates = new long[numbersArrayLength];
-			long* numOccurances = new long[numbersArrayLength];
-
-			getCount(numbers, numbersArrayLength, noDuplicates, numOccurances, numUnique);
-
-			std::cout << "Occurances:" << std::endl;
-
-			for(int i = 0; i < numUnique; ++i)
-			{
-				std::cout << noDuplicates[i] << ":\t\t" << numOccurances[i] << " occurances" << std::endl;
-			}
-
-			delete[] noDuplicates;
-			delete[] numOccurances;
-		}
-		else if(actionsToTake[i] == "getMean")
-		{
-			double mean = getMean(numbers, numbersArrayLength);
-			std::cout << "Mean:\t\t" << mean << std::endl;
-		}
-		else if(actionsToTake[i] == "getMedian")
-		{
-			double median = getMedian(numbers, numbersArrayLength);
-			std::cout << "Median:\t\t" << median << std::endl;
-		}
-		else if(actionsToTake[i] == "getMode")
-		{
-			long* modes = new long[numbersArrayLength];
-			unsigned short* occurances = new unsigned short[numbersArrayLength];
-			unsigned short numModes;
-
-			getMode(numbers, numbersArrayLength, modes, occurances, numModes);
-
-			if(numModes == 0)
-			{
-				std::cout << "No mode(s)" << std::endl;
+				std::cout << "Mode:" << std::endl;
 			}
 			else
 			{
-				std::cout << "Mode(s):" << std::endl;
-
-				for(int i = 0; i < numModes; ++i)
-				{
-					std::cout << modes[i] << ":\t\t" << occurances[i] << " occurances" << std::endl;
-				}
+				std::cout << "Modes:" << std::endl;
 			}
 
-			delete[] modes;
-			delete[] occurances;
+			for(int i = 0; i < numModes; ++i)
+			{
+				std::cout << modes[i] << ":\t\t" << occurances[i];
+				if(occurances[i] == 1)
+				{
+					std::cout << " occurance" << std::endl;
+				}
+				else
+				{
+					std::cout << " occurances" << std::endl;
+				}
+			}
 		}
-		else if(actionsToTake[i] == "getRange")
+
+		delete[] modes;
+		delete[] occurances;
+	}
+	if(actionsToTake[4]) //get count of occurances of unique numbers
+	{
+		std::cout << std::endl;
+
+		unsigned short numUnique;
+		long* noDuplicates = new long[numbersArrayLength];
+		long* numOccurances = new long[numbersArrayLength];
+
+		getCount(numbers, numbersArrayLength, noDuplicates, numOccurances, numUnique);
+
+		std::cout << "Occurances of unique numbers:" << std::endl;
+
+		for(int i = 0; i < numUnique; ++i)
 		{
-			long range = getRange(numbers, numbersArrayLength);
-			std::cout << "Range:\t\t" << range << std::endl;
+			std::cout << noDuplicates[i] << ":\t\t" << numOccurances[i] << " occurances" << std::endl;
 		}
-		else if(actionsToTake[i] == "getLessGreaterThanMean")
+
+		delete[] noDuplicates;
+		delete[] numOccurances;
+	}
+	if(actionsToTake[5]) //get less/greater than median
+	{
+		std::cout << std::endl;
+
+		unsigned short numLessMedian;
+		unsigned short numGreaterMedian;
+
+		getLessGreaterThanMedian(numbers, numbersArrayLength, numLessMedian, numGreaterMedian);
+
+		std::cout << "Number of values < median: " << numLessMedian << "\tNumber of values > median: " << numGreaterMedian << std::endl;
+	}
+	if(actionsToTake[6]) //get less/greater than mean
+	{
+		std::cout << std::endl;
+
+		unsigned short numLessMean;
+		unsigned short numGreaterMean;
+
+		getLessGreaterThanMean(numbers, numbersArrayLength, numLessMean, numGreaterMean);
+
+		std::cout << "Number of values < mean: " << numLessMean << "\tNumber of values > mean: " << numGreaterMean << std::endl;
+	}
+	if(actionsToTake[7]) //get odd/even
+	{
+		std::cout << std::endl;
+
+		unsigned short numOdd;
+		unsigned short numEven;
+
+		getOddEven(numbers, numbersArrayLength, numOdd, numEven);
+
+		std::cout << "Odd: " << numOdd << "\tEven: " << numEven << std::endl;
+	}
+	if(actionsToTake[8]) //sort small to large
+	{
+		std::cout << std::endl << "Numbers sorted from smallest to largest:" << std::endl;
+
+		quicksort(numbers, 0, numbersArrayLength - 1, true);
+		for(int i = 0; i < numbersArrayLength; ++i)
 		{
-			unsigned short numLessMean;
-			unsigned short numGreaterMean;
-
-			getLessGreaterThanMean(numbers, numbersArrayLength, numLessMean, numGreaterMean);
-
-			std::cout << "Number of values < mean: " << numLessMean << "\tNumber of values > mean: " << numGreaterMean << std::endl;
+			std::cout << numbers[i] << std::endl;
 		}
-		else if(actionsToTake[i] == "getLessGreaterThanMedian")
+	}
+	if(actionsToTake[9]) //sort small to large
+	{
+		std::cout << std::endl << "Numbers sorted from largest to smallest:" << std::endl;
+
+		quicksort(numbers, 0, numbersArrayLength - 1, false);
+		for(int i = 0; i < numbersArrayLength; ++i)
 		{
-			unsigned short numLessMedian;
-			unsigned short numGreaterMedian;
-
-			getLessGreaterThanMedian(numbers, numbersArrayLength, numLessMedian, numGreaterMedian);
-
-			std::cout << "Number of values < median: " << numLessMedian << "\tNumber of values > median: " << numGreaterMedian << std::endl;
-		}
-		else if(actionsToTake[i] == "getOddEven")
-		{
-			unsigned short numOdd;
-			unsigned short numEven;
-
-			getOddEven(numbers, numbersArrayLength, numOdd, numEven);
-
-			std::cout << "Odd: " << numOdd << "\tEven: " << numEven << std::endl;
+			std::cout << numbers[i] << std::endl;
 		}
 	}
 
