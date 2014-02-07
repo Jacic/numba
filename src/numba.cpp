@@ -10,7 +10,7 @@ See LICENSE file for license information
 #include <stdlib.h>
 
 //the current version of the program
-const std::string version = "0.12.0";
+const std::string version = "1.0.0";
 
 /*
 Prints information on how to use this program
