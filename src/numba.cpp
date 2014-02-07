@@ -602,7 +602,8 @@ int main(int argc, char* argv[])
 
 		getLessGreaterThanMedian(numbers, numbersArrayLength, numLessMedian, numGreaterMedian);
 
-		std::cout << "Number of values < median: " << numLessMedian << "\tNumber of values > median: " << numGreaterMedian << std::endl;
+		std::cout << "Number of values < median: " << numLessMedian << " (" << ((double)numLessMedian / numbersArrayLength * 100) << "%)" << std::endl;
+		std::cout << "Number of values > median: " << numGreaterMedian << " (" << ((double)numGreaterMedian / numbersArrayLength) * 100 << "%)" << std::endl;
 	}
 	if(actionsToTake["lessGreaterThanMean"]) //get less/greater than mean
 	{
@@ -613,7 +614,8 @@ int main(int argc, char* argv[])
 
 		getLessGreaterThanMean(numbers, numbersArrayLength, numLessMean, numGreaterMean);
 
-		std::cout << "Number of values < mean: " << numLessMean << "\tNumber of values > mean: " << numGreaterMean << std::endl;
+		std::cout << "Number of values < mean: " << numLessMean << " (" << ((double)numLessMean / numbersArrayLength * 100) << "%)" << std::endl;
+		std::cout << "Number of values > mean: " << numGreaterMean << " (" << ((double)numGreaterMean / numbersArrayLength) * 100 << "%)" << std::endl;
 	}
 	if(actionsToTake["oddEven"]) //get odd/even
 	{
@@ -624,7 +626,8 @@ int main(int argc, char* argv[])
 
 		getOddEven(numbers, numbersArrayLength, numOdd, numEven);
 
-		std::cout << "Odd: " << numOdd << "\tEven: " << numEven << std::endl;
+		std::cout << "Odd: " << numOdd << "(" << ((double)numOdd / numbersArrayLength) * 100 << "%)" << std::endl;
+		std::cout << "Even: " << numEven << "(" << ((double) numEven / numbersArrayLength) * 100 << "%)" << std::endl;
 	}
 	if(actionsToTake["sortSmallToLarge"]) //sort small to large
 	{
@@ -636,7 +639,7 @@ int main(int argc, char* argv[])
 			std::cout << numbers[i] << std::endl;
 		}
 	}
-	if(actionsToTake["SortLargeToSmall"]) //sort small to large
+	if(actionsToTake["SortLargeToSmall"]) //sort large to small
 	{
 		std::cout << std::endl << "Numbers sorted from largest to smallest:" << std::endl;
 
